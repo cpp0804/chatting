@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import relationship.Comment;
-import repository.CommentRepository;
-import repository.MomentRepository;
-import repository.UserRepository;
+import relationship.Like;
+import repository.*;
 
 import java.util.Optional;
+
+//import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-config.xml"})
@@ -24,6 +25,12 @@ public class Test {
     //
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private LoginRepository loginRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
 
 
     @org.junit.Test
@@ -67,6 +74,15 @@ public class Test {
 //        login.setPassword("0000");
 //        user.getLogins().add(login);
 //        repo.save(user);
+        Optional<User> user=repo.findById(255L);
+        System.out.println(user.get().getMomentsComment());
+        Login login=loginRepository.getLoginByLogName("ooo");
+        System.out.println(login);
+
+        Like like=new Like();
+        like.setMoment(momentRepository.findById(254L).get());
+        like.setUser(repo.findById(256L).get());
+        likeRepository.save(like);
     }
 }
 
