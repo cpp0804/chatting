@@ -5,6 +5,7 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import relationship.Collections;
 import relationship.Comment;
 import relationship.Like;
 import relationship.Post;
@@ -24,8 +25,8 @@ public class Moment {
 
     private String description;
 
-    @Relationship(type="MOMENT_PIC",direction = Relationship.OUTGOING)
-    private List<Picture>pictures=new ArrayList<Picture>();
+    @Relationship(type = "MOMENT_PIC", direction = Relationship.OUTGOING)
+    private List<Picture> pictures = new ArrayList<Picture>();
 
     @Relationship(type = "POST", direction = Relationship.INCOMING)
     private List<Post> momentsPost = new ArrayList<Post>();
@@ -35,6 +36,17 @@ public class Moment {
 
     @Relationship(type = "COMMENT", direction = Relationship.INCOMING)
     private List<Comment> momentsComment = new ArrayList<Comment>();
+
+    @Relationship(type = "COLLECTION", direction = Relationship.INCOMING)
+    private List<Collections> momentsCollection = new ArrayList<Collections>();
+
+    public void setMomentsCollection(List<Collections> momentsCollection) {
+        this.momentsCollection = momentsCollection;
+    }
+
+    public List<Collections> getMomentsCollection() {
+        return momentsCollection;
+    }
 
     public void setMomentsPost(List<Post> momentsPost) {
         this.momentsPost = momentsPost;

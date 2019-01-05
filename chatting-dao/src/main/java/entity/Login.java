@@ -3,6 +3,7 @@ package entity;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 
 @NodeEntity
 public class Login {
@@ -13,6 +14,17 @@ public class Login {
 
     private String logName;
     private String password;
+
+    @Relationship(type = "BE_LOGIN", direction = Relationship.INCOMING)
+    private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
 
     public void setId(Long id) {
         this.id = id;
