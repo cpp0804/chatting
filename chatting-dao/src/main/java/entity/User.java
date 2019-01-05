@@ -2,6 +2,7 @@ package entity;
 
 import javafx.geometry.Pos;
 import org.neo4j.ogm.annotation.*;
+import relationship.Collections;
 import relationship.Comment;
 import relationship.Like;
 import relationship.Post;
@@ -22,17 +23,42 @@ public class User {
     private String phone;
     private String email;
 
-    @Relationship(type = "LOGIN", direction = Relationship.OUTGOING)
+    @Relationship(type = "LOGIN")
     private List<Login> logins = new ArrayList<Login>();
 
-    @Relationship(type = "POST", direction = Relationship.OUTGOING)
+    @Relationship(type = "POST")
     private List<Post> momentsPost = new ArrayList<Post>();
 
-    @Relationship(type = "LIKE", direction = Relationship.OUTGOING)
+    @Relationship(type = "LIKE")
     private List<Like> momentsLike = new ArrayList<Like>();
 
-    @Relationship(type = "COMMENT", direction = Relationship.OUTGOING)
+    @Relationship(type = "COMMENT")
     private List<Comment> momentsComment = new ArrayList<Comment>();
+
+    @Relationship(type = "COLLECTION")
+    private List<Collections> momentsCollection = new ArrayList<Collections>();
+
+    @Relationship(type = "FRIENDS")
+    private List<User> friends = new ArrayList<User>();
+
+    @Relationship(type = "SPECIAL_FRIENDS")
+    private List<User> specialFriends = new ArrayList<User>();
+
+    public void setMomentsCollection(List<Collections> momentsCollection) {
+        this.momentsCollection = momentsCollection;
+    }
+
+    public List<Collections> getMomentsCollection() {
+        return momentsCollection;
+    }
+
+    public void setSpecialFriends(List<User> specialFriends) {
+        this.specialFriends = specialFriends;
+    }
+
+    public List<User> getSpecialFriends() {
+        return specialFriends;
+    }
 
     public void setMomentsPost(List<Post> momentsPost) {
         this.momentsPost = momentsPost;
@@ -60,6 +86,14 @@ public class User {
 
     public void setLogins(List<Login> logins) {
         this.logins = logins;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
+
+    public List<User> getFriends() {
+        return friends;
     }
 
     public List<Login> getLogins() {
