@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import relationship.Like;
 
 @Repository
-public interface LoginRepository extends Neo4jRepository<Like, Long> {
+public interface LoginRepository extends Neo4jRepository<Login, Long> {
 
     //    @Query(value = "match(u:User)-[:LOGIN]->(l:Login{logName:{0})return l")
     @Query(value = "match(l:Login{logName:{0}})return l")

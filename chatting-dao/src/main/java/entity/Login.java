@@ -1,3 +1,8 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
 package entity;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
@@ -7,15 +12,14 @@ import org.neo4j.ogm.annotation.Relationship;
 
 @NodeEntity
 public class Login {
-
     @Id
     @GeneratedValue
     private Long id;
-
     private String logName;
     private String password;
-
-    @Relationship(type = "BE_LOGIN", direction = Relationship.INCOMING)
+    @Relationship(
+            type = "LOGIN"
+    )
     private User user;
 
     public void setUser(User user) {
@@ -23,7 +27,7 @@ public class Login {
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public void setId(Long id) {
@@ -39,15 +43,15 @@ public class Login {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public String getLogName() {
-        return logName;
+        return this.logName;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public Login() {
