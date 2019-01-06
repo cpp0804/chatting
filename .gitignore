@@ -1,12 +1,25 @@
-# Created by .ignore support plugin (hsz.mobi)
-.gitignore
-.idea/
-chatting-controller/src/test/
-chatting-controller/target/
-chatting-dao/src/main/resources/
-chatting-dao/src/test/
-chatting-dao/target/
-chatting-service/src/main/resources/
-chatting-service/src/test/
-chatting-service/target/
-out/
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
