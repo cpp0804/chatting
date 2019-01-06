@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:se="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd
         http://www.springframework.org/schema/beans
@@ -12,9 +13,19 @@
 
 
     <security:http pattern="/resources/**" security="none"/>
+    <security:http pattern="/login.html" security="none"/>
 
     <security:http auto-config="false" use-expressions="true" entry-point-ref="myAuthenticationEntryPoint">
+        <security:csrf disabled="true"/>
+        <!--<security:form-login-->
+        <!--login-page="/login.html"-->
+        <!--login-processing-url="/j_spring_security_check"-->
+        <!--authentication-failure-handler-ref="authenticationFailureHandler"-->
+        <!--authentication-success-handler-ref="authenticationSuccessHandler"-->
+        <!--username-parameter="username"-->
+        <!--password-parameter="password"/>-->
         <security:custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER"/>
+        <!--<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>-->
     </security:http>
 
     <bean id="loginFilter" class="security.MyAuthenticationFilter">
@@ -26,7 +37,9 @@
 
     <!-- 使用自定义类myUserDetailsService从数据库获取用户信息 -->
     <security:authentication-manager alias="myAuthenticationManager">
-        <security:authentication-provider user-service-ref="myUserDetailsService"/>
+        <security:authentication-provider user-service-ref="myUserDetailsService">
+            <security:password-encoder ref="myPasswordEncoder"/>
+        </security:authentication-provider>
     </security:authentication-manager>
 
     <bean id="myUserDetailsService" class="security.MyUserDetailService"/>
@@ -36,8 +49,11 @@
         <property name="defaultFailureUrl" value="/login.html"/>
     </bean>
 
-    <bean id="myAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+    <bean id="myAuthenticationEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
         <constructor-arg name="loginFormUrl" value="/login.html"/>
     </bean>
+
+    <bean name="myPasswordEncoder" class="security.MyPasswordEncoder"/>
 
 </beans>
