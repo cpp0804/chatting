@@ -13,7 +13,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="chatting" target="1.5" />
-      <module name="chattingcontroller" target="1.5" />
+      <module name="chattingcontroller" target="8" />
       <module name="chattingdao" target="1.5" />
       <module name="chattingservice" target="1.5" />
     </bytecodeTargetLevel>
