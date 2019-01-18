@@ -1,5 +1,6 @@
 package relationship;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import entity.Moment;
 import entity.User;
 import org.neo4j.ogm.annotation.EndNode;
@@ -17,9 +18,11 @@ public class BaseRelationship {
     private Long id;
 
     @StartNode
+    @JsonIgnore
     private User user;
 
     @EndNode
+    @JsonIgnore
     private Moment moment;
 
     @CreatedDate

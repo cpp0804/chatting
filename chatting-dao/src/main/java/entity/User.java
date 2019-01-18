@@ -22,6 +22,7 @@ public class User {
     private String sex;
     private String phone;
     private String email;
+    private String portrait;
 
     @Relationship(type = "LOGIN")
     private List<Login> logins = new ArrayList<Login>();
@@ -141,5 +142,13 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
+    }
+
+    public String getPortrait() {
+        return portrait;
     }
 }

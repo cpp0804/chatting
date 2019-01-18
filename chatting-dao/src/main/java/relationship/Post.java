@@ -8,4 +8,5 @@ public class Post extends BaseRelationship{
     public Post() {
     }
 
+
 }

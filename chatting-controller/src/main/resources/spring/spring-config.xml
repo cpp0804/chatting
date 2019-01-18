@@ -15,15 +15,15 @@
 
     <context:component-scan base-package="config"/>
     <context:component-scan base-package="controller"/>
-    <!--<context:component-scan base-package="service"/>-->
+    <context:component-scan base-package="service"/>
 
 
-    <!-- 静态文件映射 -->
-    <mvc:resources location="/" mapping="/**/*.html" />
-    <mvc:resources location="/" mapping="/**/*.js" />
-    <mvc:resources location="/" mapping="/**/*.css" />
-    <mvc:resources location="/" mapping="/**/*.png" />
-    <mvc:resources location="/" mapping="/**/*.gif" />
+     <!--静态文件映射-->
+    <!--<mvc:resources location="/" mapping="/**/*.html" />-->
+    <!--<mvc:resources location="/" mapping="/**/*.js" />-->
+    <!--<mvc:resources location="/" mapping="/**/*.css" />-->
+    <!--<mvc:resources location="/" mapping="/**/*.png" />-->
+    <!--<mvc:resources location="/" mapping="/**/*.gif" />-->
 
 
     <mvc:annotation-driven/>

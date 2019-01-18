@@ -14,6 +14,7 @@ import service.LoginService;
 
 @Service
 public class LoginServiceImpl implements LoginService {
+
     @Autowired
     private LoginRepository loginRepository;
 

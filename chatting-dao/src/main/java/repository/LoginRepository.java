@@ -13,4 +13,5 @@ public interface LoginRepository extends Neo4jRepository<Login, Long> {
     @Query(value = "match(l:Login{logName:{0}})return l")
     public Login getLoginByLogName(String logName);
 
+
 }

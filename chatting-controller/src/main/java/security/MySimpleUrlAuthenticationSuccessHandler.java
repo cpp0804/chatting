@@ -17,10 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import service.LoginService;
+import service.UserService;
 
 public class MySimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private UserService userService;
 
     public MySimpleUrlAuthenticationSuccessHandler() {
     }
@@ -37,11 +41,12 @@ public class MySimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthentica
 
     private void setAuthencationResult(HttpServletRequest request, Authentication authentication, AuthencationResult authencationResult) {
         Login login = this.loginService.getLoginByLogName(authentication.getName());
-        User user = login.getUser();
+        User user = userService.findUserByLogin(login.getId());
         authencationResult.setUser(user);
         authencationResult.setLogName(authentication.getName());
         authencationResult.setStatus(true);
         authencationResult.setMsg("登录验证成功");
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("userId", user.getId());
+
     }
 }
