@@ -24,6 +24,8 @@ public interface HttpResponseConstants {
 
 		public static final String COMMENT_SUCCESS = "评论成功";
 
+		public static final String FRIENDS_SUCCESS = "关注好友成功";
+
 		public static final String ERROR_700 = "参数错误";
 
 	}

@@ -4,8 +4,11 @@ import entity.Login;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pojo.RequestResultVO;
 import repository.UserRepository;
 import service.UserService;
+import utils.HttpResponseConstants;
+import utils.ResultBuilder;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -30,6 +33,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getSessionUser() {
         return userRepository.findById((Long) session.getAttribute("userId")).get();
+    }
+
+    @Override
+    public RequestResultVO friends(Long friendsId) {
+        if (friendsId == null) {
+            throw new util.BizException(HttpResponseConstants.Public.ERROR_700);
+        }
+        User friend=userRepository.findById(friendsId).get();
+        User user=getSessionUser();
+        user.getFriends().add(friend);
+        userRepository.save(user);
+        return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.FRIENDS_SUCCESS, "");
     }
 
     public User findUserByLogin(Long loginId) {
