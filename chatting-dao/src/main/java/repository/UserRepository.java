@@ -4,8 +4,9 @@ package repository;
 import entity.User;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import relationship.Post;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +21,8 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     List<User> findFriends(Long userId);
 
     Optional<User> findById(Long userId);
+
+    @Query(value = "match(u:User) where u.name=~'.*{0}.*' return u")
+    List<User> findUserByName(String name);
 
 }

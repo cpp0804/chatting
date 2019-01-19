@@ -1,5 +1,6 @@
 package service.impl;
 
+import entity.Moment;
 import entity.Picture;
 import entity.User;
 import net.sf.json.JSONArray;
@@ -33,7 +34,6 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserService userService;
-
 
 
     public Map<String, Object> getFriendsMoment() {
@@ -80,10 +80,10 @@ public class PostServiceImpl implements PostService {
         List<Post> myMonents = new ArrayList<Post>();
         User friend;
         Post post;
-            for (Iterator iterator = user.getMomentsPost().iterator(); iterator.hasNext(); ) {
-                post = (Post) iterator.next();
-                ((ArrayList<Long>) myMomentsIds).add(post.getId());
-            }
+        for (Iterator iterator = user.getMomentsPost().iterator(); iterator.hasNext(); ) {
+            post = (Post) iterator.next();
+            ((ArrayList<Long>) myMomentsIds).add(post.getId());
+        }
 
         myMonents.addAll((Collection<? extends Post>) postRepository.findAllById(myMomentsIds));
         Collections.sort(myMonents, new Comparator<Post>() {
@@ -111,6 +111,15 @@ public class PostServiceImpl implements PostService {
         }
         postRepository.save(post);
         return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.POST_SUCCESS, "");
+    }
+
+    @Override
+    public Post createPost(Moment moment) {
+        Post post = new Post();
+        post.setPostDate(new Date());
+        post.setUser(userRepository.findById(userService.getSessionId()).get());
+        post.setMoment(moment);
+        return post;
     }
 
     private List<PostVo> createVos(List<Post> posts) {

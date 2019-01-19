@@ -5,16 +5,20 @@ import entity.User;
 import pojo.RequestResultVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
-    public User findUserByLogin(Long loginId);
+    User findUserByLogin(Long loginId);
 
-    public List<User>findFriends();
+    Map<String, Object> findFriends();
 
-    public Long getSessionId();
+    Long getSessionId();
 
     User getSessionUser();
 
     RequestResultVO friends(Long friendsId);
+
+
+    List<User> findUserByName(String name);
 }

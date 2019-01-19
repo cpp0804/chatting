@@ -21,14 +21,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @RequestMapping("/login")
     public void login() {
 
     }
 
+    //获取好友列表
     @RequestMapping(value = "/findFriends.do")
     public @ResponseBody
     Object findFriends(HttpServletRequest request) {
@@ -41,6 +39,14 @@ public class UserController {
     RequestResultVO friends(HttpServletRequest request) {
         Long friendId = Long.valueOf(request.getParameter("friendId"));
         return userService.friends(friendId);
+    }
+
+    //根据用户名查找用户
+    @RequestMapping(value = "/findUserByName.do")
+    public @ResponseBody
+    Object findUserByName(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        return userService.findUserByName(name);
     }
 
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import entity.Moment;
+import entity.Picture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,13 +10,16 @@ import pojo.RequestResultVO;
 
 import relationship.Post;
 import repository.UserRepository;
+import service.MomentService;
 import service.PostService;
 import service.UserService;
 import utils.HttpResponseConstants;
 import utils.JsonFastUtil;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/post")
@@ -25,26 +29,17 @@ public class PostController {
     private PostService postService;
 
     @Autowired
-    private UserService userService;
+    private MomentService momentService;
 
-    @Autowired
-    private UserRepository userRepository;
 
     //发布动态
     @RequestMapping(value = "/insert.do")
     public @ResponseBody
     RequestResultVO insert(HttpServletRequest request) {
-        String keys = request.getParameter("keys");
-        Moment moment = null;
-        Post post=new Post();
-        post.setPostDate(new Date());
-        post.setUser(userRepository.findById(userService.getSessionId()).get());
-        try {
-            moment = JsonFastUtil.parseObject(keys, Moment.class);
-        } catch (Exception e) {
-            throw new util.BizException(HttpResponseConstants.Public.ERROR_700);
-        }
-        post.setMoment(moment);
+        String description = request.getParameter("description");
+        String pictureUrl = request.getParameter("pictures");
+        Moment moment = momentService.createMoment(description, pictureUrl);
+        Post post = postService.createPost(moment);
         return postService.insert(post);
     }
 

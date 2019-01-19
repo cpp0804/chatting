@@ -1,5 +1,6 @@
 package service;
 
+import entity.Moment;
 import javafx.geometry.Pos;
 import pojo.RequestResultVO;
 import relationship.Post;
@@ -10,9 +11,12 @@ import java.util.Map;
 public interface PostService {
 
 
-    public Map<String,Object> getFriendsMoment();
+     Map<String,Object> getFriendsMoment();
 
-    public Map<String,Object> getMyMoment();
+     Map<String,Object> getMyMoment();
 
-    public RequestResultVO insert(Post post);
+     RequestResultVO insert(Post post);
+
+    Post createPost(Moment moment);
+
 }
