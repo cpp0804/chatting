@@ -1,5 +1,6 @@
 package service.impl;
 
+import entity.Moment;
 import entity.Picture;
 import entity.User;
 import net.sf.json.JSONArray;
@@ -8,12 +9,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pojo.PostVo;
+import pojo.RequestResultVO;
 import relationship.Post;
 import repository.PostRepository;
 import repository.UserRepository;
 import service.PostService;
 import service.UserService;
 import utils.DateJsonValueProcessor;
+import utils.HttpResponseConstants;
+import utils.ResultBuilder;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -32,14 +36,9 @@ public class PostServiceImpl implements PostService {
     private UserService userService;
 
 
-    public List<Post> findPostByUser(Long userId) {
-//        return postRepository.findPostByUserId(userId);
-        return null;
-    }
-
     public Map<String, Object> getFriendsMoment() {
-        Long userId = userService.getSessionId();
-        User user = userRepository.findById(userId).get();
+//        Long userId = userService.getSessionId();
+        User user = userService.getSessionUser();
         List<User> friends = new ArrayList<>();
         for (User u : user.getFriends()) {
             friends.add(userRepository.findById(u.getId()).get());
@@ -75,16 +74,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Map<String, Object> getMyMoment() {
-        Long userId = userService.getSessionId();
-        User user = userRepository.findById(userId).get();
+//        Long userId = userService.getSessionId();
+        User user = userService.getSessionUser();
         Iterable<Long> myMomentsIds = new ArrayList<>();
         List<Post> myMonents = new ArrayList<Post>();
         User friend;
         Post post;
-            for (Iterator iterator = user.getMomentsPost().iterator(); iterator.hasNext(); ) {
-                post = (Post) iterator.next();
-                ((ArrayList<Long>) myMomentsIds).add(post.getId());
-            }
+        for (Iterator iterator = user.getMomentsPost().iterator(); iterator.hasNext(); ) {
+            post = (Post) iterator.next();
+            ((ArrayList<Long>) myMomentsIds).add(post.getId());
+        }
 
         myMonents.addAll((Collection<? extends Post>) postRepository.findAllById(myMomentsIds));
         Collections.sort(myMonents, new Comparator<Post>() {
@@ -103,6 +102,24 @@ public class PostServiceImpl implements PostService {
         map.put("aaData", JSONArray.fromObject(this.createVos(myMonents), config));
         return map;
 
+    }
+
+    @Override
+    public RequestResultVO insert(Post post) {
+        if (post == null) {
+            throw new util.BizException(HttpResponseConstants.Public.ERROR_700);
+        }
+        postRepository.save(post);
+        return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.POST_SUCCESS, "");
+    }
+
+    @Override
+    public Post createPost(Moment moment) {
+        Post post = new Post();
+        post.setPostDate(new Date());
+        post.setUser(userRepository.findById(userService.getSessionId()).get());
+        post.setMoment(moment);
+        return post;
     }
 
     private List<PostVo> createVos(List<Post> posts) {
