@@ -26,7 +26,7 @@ public class Test {
 
     @Autowired
     private MomentRepository momentRepository;
-    //
+
     @Autowired
     private CommentRepository commentRepository;
 
@@ -229,11 +229,17 @@ public class Test {
 
     @org.junit.Test
     public void getU(){
-        Optional<Login>login=loginRepository.findById(337L);
-        Optional<User>user=repo.findById(336L);
-//        login.get().setUser(user.get());
-//        loginRepository.save(login.get());
-        System.out.println(login.get().getUser());
+        User user = repo.findById(0L).get();
+
+        Login login = new Login();
+        login.setLogName("xdw");
+        login.setPassword("xdw");
+        login.setUser(user);
+
+        user.getLogins().add(login);
+
+        repo.save(user);
+
     }
 
     @org.junit.Test
