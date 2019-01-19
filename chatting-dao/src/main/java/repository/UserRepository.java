@@ -22,7 +22,7 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     Optional<User> findById(Long userId);
 
-    @Query(value = "match(u:User) where u.name=~'.*{0}.*' return u")
+    @Query(value = "match(u:User) where u.name={0} return u")
     List<User> findUserByName(String name);
 
 }
