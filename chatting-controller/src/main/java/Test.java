@@ -239,7 +239,7 @@ public class Test {
 
     @org.junit.Test
     public void testA() {
-        User user=repo.findById(336L).get();
+        User user=repo.findById(273L).get();
         Post post=new Post();
         Moment moment=new Moment();
         moment.setDescription("336 moment1");
