@@ -229,11 +229,12 @@ public class Test {
 
     @org.junit.Test
     public void getU(){
-        Optional<Login>login=loginRepository.findById(337L);
-        Optional<User>user=repo.findById(336L);
+        Optional<Login>login=loginRepository.findById(6L);
+//        Optional<User>user=repo.findById(5L);
 //        login.get().setUser(user.get());
 //        loginRepository.save(login.get());
-        System.out.println(login.get().getUser());
+//        System.out.println(login.get().getUser());
+        System.out.println(login.get());
     }
 
     @org.junit.Test

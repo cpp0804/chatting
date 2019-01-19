@@ -18,13 +18,18 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
 
-//    @Autowired
-//    private HttpSession session;
+    @Autowired
+    private HttpSession session;
 
     public Long getSessionId() {
-//        Long userId = (Long) session.getAttribute("userId");
-//        return userId;
-        return null;
+        Long userId = (Long) session.getAttribute("userId");
+        return userId;
+//        return null;
+    }
+
+    @Override
+    public User getSessionUser() {
+        return userRepository.findById((Long) session.getAttribute("userId")).get();
     }
 
     public User findUserByLogin(Long loginId) {
@@ -32,6 +37,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> findFriends() {
-        return userRepository.findFriends(getSessionId());
+        return userRepository.findFriends((Long) session.getAttribute("userId"));
+//        return null;
     }
+
 }

@@ -17,8 +17,14 @@ public interface HttpResponseConstants {
 		/**0**/
 		public static final Integer SUCCESS_CODE = 0;
 
+		public static final Integer ERROR_CODE = 1;
+
 		/**success**/
 		public static final String POST_SUCCESS = "发布动态成功";
+
+		public static final String COMMENT_SUCCESS = "评论成功";
+
+		public static final String ERROR_700 = "参数错误";
 
 	}
 	

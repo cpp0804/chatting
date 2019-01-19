@@ -12,4 +12,6 @@ public interface UserService {
     public List<User>findFriends();
 
     public Long getSessionId();
+
+    User getSessionUser();
 }
