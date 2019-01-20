@@ -1,8 +1,13 @@
 package repository;
 
+import entity.Moment;
+import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 import relationship.Post;
+
+import java.util.Date;
+import java.util.List;
 
 
 @Repository
@@ -18,5 +23,7 @@ public interface PostRepository extends Neo4jRepository<Post, Long> {
 
     @Override
     Iterable<Post> findAllById(Iterable<Long> iterable);
-    
+
+    @Query(value = "match(u:User)-[p:POST]-(m:Moment) where p.postDate>={0} and p.postDate<={1} return p order by p.postDate desc limit 100")
+    List<Post> getHomeMoment(String beginDate, String endDate);
 }

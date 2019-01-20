@@ -19,6 +19,8 @@ import utils.DateJsonValueProcessor;
 import utils.HttpResponseConstants;
 import utils.ResultBuilder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -47,7 +49,12 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         Moment moment = momentRepository.findById(momentId).get();
         comment.setMoment(moment);
-        comment.setPostDate(new Date());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            comment.setPostDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         comment.setUser(userService.getSessionUser());
         comment.setComment(commentString);
         return comment;
