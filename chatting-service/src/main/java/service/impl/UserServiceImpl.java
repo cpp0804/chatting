@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-//
+    //
     @Autowired
     private HttpSession session;
 
@@ -70,8 +70,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUserByName(String name) {
+    public Map<String, Object> findUserByName(String name) {
         List<User> users = userRepository.findUserByName(name);
-        return users;
+        Map<String, Object> map = new HashMap<String, Object>();
+        JsonConfig config = new JsonConfig();
+        config.setExcludes(new String[]{"login", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
+        config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
+        map.put("aaData", JSONArray.fromObject(users, config));
+        return map;
     }
 }

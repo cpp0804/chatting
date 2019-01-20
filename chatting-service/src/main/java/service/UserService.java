@@ -20,5 +20,5 @@ public interface UserService {
     RequestResultVO friends(Long friendsId);
 
 
-    List<User> findUserByName(String name);
+    Map<String, Object> findUserByName(String name);
 }
