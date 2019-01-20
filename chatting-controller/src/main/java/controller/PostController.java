@@ -56,4 +56,12 @@ public class PostController {
     Object getMyMoment(HttpServletRequest request) {
         return postService.getMyMoment();
     }
+
+    //获取首页的动态列表
+    //最近7天内
+    @RequestMapping(value = "/getHomeMoment.do")
+    public @ResponseBody
+    Object getHomeMoment(HttpServletRequest request){
+        return postService.getHomeMoment();
+    }
 }

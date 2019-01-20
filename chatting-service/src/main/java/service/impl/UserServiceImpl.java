@@ -1,6 +1,5 @@
 package service.impl;
 
-import entity.Login;
 import entity.User;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
@@ -39,7 +38,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getSessionUser() {
         return userRepository.findById((Long) session.getAttribute("userId")).get();
+//        return null;
     }
+
 
     @Override
     public RequestResultVO friends(Long friendsId) {
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
     public Map<String, Object> findFriends() {
         List<User> friends = userRepository.findFriends((Long) session.getAttribute("userId"));
+//        List<User> friends=null;
         Map<String, Object> map = new HashMap<String, Object>();
         JsonConfig config = new JsonConfig();
         config.setExcludes(new String[]{"login", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
@@ -68,8 +70,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUserByName(String name) {
+    public Map<String, Object> findUserByName(String name) {
         List<User> users = userRepository.findUserByName(name);
-        return users;
+        Map<String, Object> map = new HashMap<String, Object>();
+        JsonConfig config = new JsonConfig();
+        config.setExcludes(new String[]{"login", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
+        config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
+        map.put("aaData", JSONArray.fromObject(users, config));
+        return map;
     }
 }

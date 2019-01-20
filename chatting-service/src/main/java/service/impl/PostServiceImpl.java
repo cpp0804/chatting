@@ -20,6 +20,8 @@ import utils.HttpResponseConstants;
 import utils.ResultBuilder;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -116,10 +118,32 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post createPost(Moment moment) {
         Post post = new Post();
-        post.setPostDate(new Date());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            post.setPostDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         post.setUser(userRepository.findById(userService.getSessionId()).get());
         post.setMoment(moment);
         return post;
+    }
+
+    @Override
+    public Map<String, Object> getHomeMoment() {
+        Date endDate=new Date();
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(endDate);
+        calendar.add(Calendar.DATE, -7);
+        Date beginDate=calendar.getTime();
+        List<Post>posts=postRepository.getHomeMoment(beginDate.toString(),endDate.toString());
+        Map<String,Object>map=new HashMap<>();
+        JsonConfig config=new JsonConfig();
+        config.setExcludes(new String[]{"user", "moment"});
+        config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
+        map.put("aaData", JSONArray.fromObject(this.createVos(posts), config));
+        return map;
+
     }
 
     private List<PostVo> createVos(List<Post> posts) {

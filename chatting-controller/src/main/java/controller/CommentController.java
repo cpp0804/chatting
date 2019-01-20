@@ -29,4 +29,11 @@ public class CommentController {
         Comment comment=commentService.createComment(commentString,momentId);
         return commentService.insert(comment);
     }
+
+    @RequestMapping(value = "/findCommentByMoment.do")
+    public @ResponseBody
+    Object findCommentByMoment(HttpServletRequest request){
+        Long momentId= Long.valueOf(request.getParameter("momentId"));
+        return commentService.findCommentByMoment(momentId);
+    }
 }
