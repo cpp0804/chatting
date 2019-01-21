@@ -32,16 +32,4 @@ public class MomentController {
     }
 
 
-
-//    @RequestMapping(value = "/like.do", method = RequestMethod.POST)
-//    @ResponseBody
-//    public RequestResultVO like (HttpServletRequest request, HttpServletResponse reponse) {
-//        try {
-//            return momentService.collectMoment(Long.parseLong(request.getParameter("momentId")));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResultBuilder.buildErrorResult(e.getMessage(), "");
-//        }
-//    }
-
 }

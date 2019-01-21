@@ -11,6 +11,7 @@ import utils.ResultBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/like")
@@ -28,5 +29,12 @@ public class LikeController {
             e.printStackTrace();
             return ResultBuilder.buildErrorResult(e.getMessage(), "");
         }
+    }
+
+    //我的喜欢
+    @RequestMapping(value = "/myLikes.do", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> myLikes (HttpServletRequest request, HttpServletResponse reponse) {
+        return likeService.myLikes();
     }
 }

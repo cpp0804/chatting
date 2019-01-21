@@ -2,6 +2,8 @@ package service.impl;
 
 import entity.Moment;
 import entity.User;
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +14,14 @@ import repository.LikeRepository;
 import repository.MomentRepository;
 import service.LikeService;
 import service.UserService;
+import utils.DateJsonValueProcessor;
 import utils.HttpResponseConstants;
 import utils.ResultBuilder;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class LikeServiceImpl implements LikeService {
@@ -59,5 +65,21 @@ public class LikeServiceImpl implements LikeService {
             likeRepository.save(like);
             return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.LIKE_SUCCESS, "");
         }
+    }
+
+    // 我的喜欢
+    @Override
+    public Map<String, Object> myLikes() {
+
+        Long userId = userService.getSessionId();
+
+        List<Moment> lks = likeRepository.myLikes(userId);
+
+        Map<String, Object> map = new HashMap<>();
+        JsonConfig config = new JsonConfig();
+//        config.setExcludes(new String[]{"user"});
+        config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
+        map.put("aaData", JSONArray.fromObject(lks, config));
+        return map;
     }
 }
