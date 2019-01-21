@@ -10,6 +10,8 @@ import pojo.RequestResultVO;
 import service.MomentService;
 import service.UserService;
 import service.impl.MomentServiceImpl;
+import utils.HttpResponseConstants;
+import utils.ResultBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,26 +31,17 @@ public class MomentController {
         return "login";
     }
 
-    @RequestMapping(value = "/collect.do", method = RequestMethod.POST)
-    @ResponseBody
-    public RequestResultVO collect (HttpServletRequest request, HttpServletResponse reponse) {
 
-        Long momentId = Long.parseLong(request.getParameter("momentId"));
 
-        RequestResultVO requestResultVO = new RequestResultVO();
-
-        try {
-            momentService.collectMoment(userService.findUserByLogin(userService.getSessionId()), momentId);
-            requestResultVO.setCode(0);
-            requestResultVO.setMessage("收藏成功");
-        } catch (Exception e) {
-            requestResultVO.setCode(1);
-            requestResultVO.setMessage("收藏失败");
-            e.printStackTrace();
-        }
-
-        return requestResultVO;
-
-    }
+//    @RequestMapping(value = "/like.do", method = RequestMethod.POST)
+//    @ResponseBody
+//    public RequestResultVO like (HttpServletRequest request, HttpServletResponse reponse) {
+//        try {
+//            return momentService.collectMoment(Long.parseLong(request.getParameter("momentId")));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResultBuilder.buildErrorResult(e.getMessage(), "");
+//        }
+//    }
 
 }
