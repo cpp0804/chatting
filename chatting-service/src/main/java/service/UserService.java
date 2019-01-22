@@ -23,4 +23,8 @@ public interface UserService {
     Map<String, Object> findUserByName(String name);
 
     Map<String, Object> getUser();
+
+    RequestResultVO insert(User user);
+
+//    User createUser(String keys);
 }

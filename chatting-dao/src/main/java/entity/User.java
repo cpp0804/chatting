@@ -26,8 +26,6 @@ public class User {
     private String portrait;
     private String motto;
 
-
-
     @Relationship(type = "LOGIN")
     private List<Login> logins = new ArrayList<Login>();
 

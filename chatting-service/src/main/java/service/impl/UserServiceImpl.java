@@ -95,7 +95,21 @@ public class UserServiceImpl implements UserService {
         JsonConfig config = new JsonConfig();
         config.setExcludes(new String[]{"logins", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
         config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
-        map.put("aaData", JSONObject.fromObject(userVo,config));
+        map.put("aaData", JSONObject.fromObject(userVo, config));
         return map;
     }
+
+    @Override
+    public RequestResultVO insert(User user) {
+        if (user == null) {
+            throw new util.BizException(HttpResponseConstants.Public.ERROR_700);
+        }
+        userRepository.save(user);
+        return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.REGISTER_SUCCESS, "");
+    }
+
+//    @Override
+//    public User createUser(String keys) {
+//        User user=new User();
+//    }
 }
