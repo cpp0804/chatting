@@ -28,5 +28,18 @@ public class ResultBuilder {
 
     }
 
+    /**
+     * 生成失败的结果
+     *
+     * @param obj 数据体
+     * @return
+     */
+    public static RequestResultVO buildErrorResult(String message, Object obj) {
+        RequestResultVO response = new RequestResultVO();
+        response.setCode(HttpResponseConstants.Public.ERROR_CODE);
+        response.setMessage(message);
+        response.setData(obj);
+        return response;
 
+    }
 }

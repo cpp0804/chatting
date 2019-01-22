@@ -26,6 +26,15 @@ public interface HttpResponseConstants {
 
 		public static final String FRIENDS_SUCCESS = "关注好友成功";
 
+		public static final String COLLECT_SUCCESS = "收藏成功";
+
+		public static final String CANCEL_COLLECT_SUCCESS = "取消收藏成功";
+
+		public static final String LIKE_SUCCESS = "喜欢成功";
+
+		public static final String CANCEL_LIKE_SUCCESS = "取消喜欢成功";
+
+		/**error**/
 		public static final String ERROR_700 = "参数错误";
 
 	}

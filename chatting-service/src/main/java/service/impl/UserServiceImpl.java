@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    //
-    @Autowired
+
+    @Autowired(required = false)
     private HttpSession session;
 
     public Long getSessionId() {

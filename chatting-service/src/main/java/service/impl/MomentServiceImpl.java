@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
+import pojo.RequestResultVO;
+import relationship.Comment;
 import relationship.Post;
+import relationship.Collections;
 import repository.CollectionRepository;
 import repository.MomentRepository;
 import repository.PostRepository;
@@ -20,6 +23,7 @@ import service.UserService;
 import utils.DateJsonValueProcessor;
 import utils.HttpResponseConstants;
 import utils.JsonFastUtil;
+import utils.ResultBuilder;
 
 import java.util.*;
 
@@ -66,38 +70,6 @@ public class MomentServiceImpl implements MomentService {
         return moment;
     }
 
-    @Override
-    @Transactional
-    public void collectMoment(User user, Long MomentId){
-
-
-//        Collections collections = new Collections();
-//        collections.setUser(user);
-//        collections.setMoment(momentRepository.findById(MomentId).get());
-//        collections.setPostDate(new Date());
-
-        Post post1 = new Post();
-        post1.setUser(user);
-        post1.setMoment(momentRepository.findById(40L).get());
-        post1.setPostDate(new Date());
-
-        user.getMomentsPost().add(post1);
-
-        post1.setMoment(momentRepository.findById(19L).get());
-        post1.setPostDate(new Date());
-
-
-        user.getMomentsPost().add(post1);
-
-        userRepository.save(user);
-
-//        for (Collections col : user.getMomentsCollection()){
-//            if (col.getId() == MomentId) {
-//                return;
-//            }
-//        }
-//        collectionRepository.save(collections);
-    }
 
 }
 
