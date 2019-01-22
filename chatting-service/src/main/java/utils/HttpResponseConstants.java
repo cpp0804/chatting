@@ -36,6 +36,8 @@ public interface HttpResponseConstants {
 
 		public static final String REGISTER_SUCCESS = "注册成功";
 
+		public static final String LOGNAME_EXIST = "注册用户名已存在";
+
 		/**error**/
 		public static final String ERROR_700 = "参数错误";
 

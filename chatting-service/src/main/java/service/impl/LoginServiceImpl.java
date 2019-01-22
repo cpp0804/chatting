@@ -24,4 +24,5 @@ public class LoginServiceImpl implements LoginService {
     public Login getLoginByLogName(String logName) {
         return StringUtils.isEmpty(logName) ? null : this.loginRepository.getLoginByLogName(logName);
     }
+
 }

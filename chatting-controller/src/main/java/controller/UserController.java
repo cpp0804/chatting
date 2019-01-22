@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pojo.RequestResultVO;
 import repository.UserRepository;
+import service.LoginService;
 import service.UserService;
 import utils.HttpResponseConstants;
 import utils.JsonFastUtil;
+import utils.ResultBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LoginService loginService;
 
     @RequestMapping("/login")
     public void login() {
@@ -62,12 +67,15 @@ public class UserController {
     public @ResponseBody
     RequestResultVO register(HttpServletRequest request) {
         String userKey = request.getParameter("user");
-        String loginKey=request.getParameter("login");
+        String loginKey = request.getParameter("login");
         User user;
         Login login;
         try {
             user = JsonFastUtil.parseObject(userKey, User.class);
-            login=JsonFastUtil.parseObject(loginKey,Login.class);
+            login = JsonFastUtil.parseObject(loginKey, Login.class);
+            if (loginService.getLoginByLogName(login.getLogName()) != null) {
+                return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.LOGNAME_EXIST, "");
+            }
         } catch (Exception e) {
             throw new util.BizException(HttpResponseConstants.Public.ERROR_700);
         }
