@@ -49,12 +49,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         Moment moment = momentRepository.findById(momentId).get();
         comment.setMoment(moment);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            comment.setPostDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        comment.setPostDate(new Date());
         comment.setUser(userService.getSessionUser());
         comment.setComment(commentString);
         return comment;

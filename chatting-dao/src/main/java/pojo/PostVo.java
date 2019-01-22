@@ -14,6 +14,26 @@ public class PostVo extends Post {
 
     private List<String> pictures;
 
+    private boolean liked;
+
+    private boolean collected;
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public void setCollected(boolean collected) {
+        this.collected = collected;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public boolean isCollected() {
+        return collected;
+    }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }

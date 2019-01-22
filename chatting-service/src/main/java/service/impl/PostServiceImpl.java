@@ -3,6 +3,7 @@ package service.impl;
 import entity.Moment;
 import entity.Picture;
 import entity.User;
+import javafx.geometry.Pos;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
 import org.springframework.beans.BeanUtils;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pojo.PostVo;
 import pojo.RequestResultVO;
+import relationship.Like;
 import relationship.Post;
 import repository.PostRepository;
 import repository.UserRepository;
@@ -118,12 +120,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post createPost(Moment moment) {
         Post post = new Post();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            post.setPostDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        post.setPostDate(new Date());
         post.setUser(userRepository.findById(userService.getSessionId()).get());
         post.setMoment(moment);
         return post;
@@ -131,14 +128,15 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Map<String, Object> getHomeMoment() {
-        Date endDate=new Date();
-        Calendar calendar=Calendar.getInstance();
+        Date endDate = new Date();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(endDate);
         calendar.add(Calendar.DATE, -7);
-        Date beginDate=calendar.getTime();
-        List<Post>posts=postRepository.getHomeMoment(beginDate.toString(),endDate.toString());
-        Map<String,Object>map=new HashMap<>();
-        JsonConfig config=new JsonConfig();
+        Date beginDate = calendar.getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        List<Post> posts = postRepository.getHomeMoment(simpleDateFormat.format(beginDate), simpleDateFormat.format(endDate));
+        Map<String, Object> map = new HashMap<>();
+        JsonConfig config = new JsonConfig();
         config.setExcludes(new String[]{"user", "moment"});
         config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
         map.put("aaData", JSONArray.fromObject(this.createVos(posts), config));
@@ -160,9 +158,34 @@ public class PostServiceImpl implements PostService {
             postVo.setPictures(pictures);
             postVo.setUserName(post.getUser().getName());
             postVo.setUserPortrait(post.getUser().getPortrait());
+            postVo.setCollected(isCollected(post));
+            postVo.setLiked(isLiked(post));
             postVos.add(postVo);
         }
         return postVos;
     }
 
+    private boolean isCollected(Post post) {
+        User user = userService.getSessionUser();
+        List<relationship.Collections> collections = user.getMomentsCollection();
+        for (Iterator iterator = collections.iterator(); iterator.hasNext(); ) {
+            relationship.Collections c = (relationship.Collections) iterator.next();
+            if (c.getMoment().getId() == post.getMoment().getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isLiked(Post post) {
+        User user = userService.getSessionUser();
+        List<Like> likes = user.getMomentsLike();
+        for (Iterator iterator = likes.iterator(); iterator.hasNext(); ) {
+            Like l = (Like) iterator.next();
+            if (l.getMoment().getId() == post.getMoment().getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
