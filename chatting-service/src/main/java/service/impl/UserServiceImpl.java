@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
 //        return null;
     }
 
-
     @Override
     public RequestResultVO friends(Long friendsId) {
         if (friendsId == null) {
