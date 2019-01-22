@@ -46,8 +46,13 @@ public class UserController {
     public @ResponseBody
     Object findUserByName(HttpServletRequest request) {
         String name = request.getParameter("name");
-        return userService.findUserByName(".*"+name+".*");
+        return userService.findUserByName(".*" + name + ".*");
 //        return  userService.findUserByName(name);
     }
 
+    @RequestMapping(value = "/getSessionUser.do")
+    public @ResponseBody
+    Object getSessionUser() {
+        return userService.getSessionUser();
+    }
 }
