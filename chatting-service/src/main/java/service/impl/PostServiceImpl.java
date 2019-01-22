@@ -156,8 +156,8 @@ public class PostServiceImpl implements PostService {
             BeanUtils.copyProperties(post, postVo);
             postVo.setDescription(post.getMoment().getDescription());
             List<String> pictures = new ArrayList<>();
-            Moment moment=momentRepository.findById(post.getMoment().getId()).get();
-            for (Iterator iterator =moment.getPictures().iterator(); iterator.hasNext(); ) {
+            Moment moment = momentRepository.findById(post.getMoment().getId()).get();
+            for (Iterator iterator = moment.getPictures().iterator(); iterator.hasNext(); ) {
                 Picture picture = (Picture) iterator.next();
                 pictures.add(picture.getUrl());
             }
@@ -176,7 +176,7 @@ public class PostServiceImpl implements PostService {
         List<relationship.Collections> collections = user.getMomentsCollection();
         for (Iterator iterator = collections.iterator(); iterator.hasNext(); ) {
             relationship.Collections c = (relationship.Collections) iterator.next();
-            if (c.getMoment().getId() == post.getMoment().getId()) {
+            if (c.getMoment().getId().equals(post.getMoment().getId())) {
                 return true;
             }
         }
@@ -188,7 +188,7 @@ public class PostServiceImpl implements PostService {
         List<Like> likes = user.getMomentsLike();
         for (Iterator iterator = likes.iterator(); iterator.hasNext(); ) {
             Like l = (Like) iterator.next();
-            if (l.getMoment().getId() == post.getMoment().getId()) {
+            if (l.getMoment().getId().equals(post.getMoment().getId())) {
                 return true;
             }
         }
