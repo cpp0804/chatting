@@ -69,7 +69,7 @@ public class MomentServiceImpl implements MomentService {
             pictures.add(picture);
         }
         moment.setDescription(description);
-        moment.setPictures(pictures);
+        moment.getPictures().addAll(pictures);
         return moment;
     }
 
