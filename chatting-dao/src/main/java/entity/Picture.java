@@ -3,6 +3,7 @@ package entity;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -23,6 +24,8 @@ public class Picture {
     @CreatedDate
     private Date createTime;
 
+    @Relationship(type = "MOMENT_PIC",direction = Relationship.INCOMING)
+    private Moment moment;
 
     public Picture() {
     }
@@ -57,5 +60,13 @@ public class Picture {
 
     public Date getCreateTime() {
         return createTime;
+    }
+
+    public void setMoment(Moment moment) {
+        this.moment = moment;
+    }
+
+    public Moment getMoment() {
+        return moment;
     }
 }

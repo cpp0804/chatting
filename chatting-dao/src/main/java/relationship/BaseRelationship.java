@@ -18,11 +18,11 @@ public class BaseRelationship {
     private Long id;
 
     @StartNode
-    @JsonIgnore
+//    @JsonIgnore
     private User user;
 
     @EndNode
-    @JsonIgnore
+//    @JsonIgnore
     private Moment moment;
 
     @CreatedDate

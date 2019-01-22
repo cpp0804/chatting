@@ -25,7 +25,7 @@ public class Moment {
 
     private String description;
 
-    @Relationship(type = "MOMENT_PIC")
+    @Relationship(type = "MOMENT_PIC",direction = Relationship.OUTGOING)
     private List<Picture> pictures = new ArrayList<Picture>();
 
     @Relationship(type = "POST", direction = Relationship.INCOMING)
@@ -95,4 +95,6 @@ public class Moment {
     public List<Picture> getPictures() {
         return pictures;
     }
+
+
 }

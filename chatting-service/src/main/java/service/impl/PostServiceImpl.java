@@ -13,6 +13,7 @@ import pojo.PostVo;
 import pojo.RequestResultVO;
 import relationship.Like;
 import relationship.Post;
+import repository.MomentRepository;
 import repository.PostRepository;
 import repository.UserRepository;
 import service.PostService;
@@ -38,6 +39,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MomentRepository momentRepository;
 
 
     public Map<String, Object> getFriendsMoment() {
@@ -140,6 +144,7 @@ public class PostServiceImpl implements PostService {
         config.setExcludes(new String[]{"user", "moment"});
         config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
         map.put("aaData", JSONArray.fromObject(this.createVos(posts), config));
+//        Moment moment= momentRepository.findById(439L).get();
         return map;
 
     }
@@ -151,7 +156,8 @@ public class PostServiceImpl implements PostService {
             BeanUtils.copyProperties(post, postVo);
             postVo.setDescription(post.getMoment().getDescription());
             List<String> pictures = new ArrayList<>();
-            for (Iterator iterator = post.getMoment().getPictures().iterator(); iterator.hasNext(); ) {
+            Moment moment=momentRepository.findById(post.getMoment().getId()).get();
+            for (Iterator iterator =moment.getPictures().iterator(); iterator.hasNext(); ) {
                 Picture picture = (Picture) iterator.next();
                 pictures.add(picture.getUrl());
             }
