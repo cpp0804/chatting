@@ -50,9 +50,9 @@ public class UserController {
 //        return  userService.findUserByName(name);
     }
 
-    @RequestMapping(value = "/getSessionUser.do")
+    @RequestMapping(value = "/getUser.do")
     public @ResponseBody
-    Object getSessionUser() {
-        return userService.getSessionUser();
+    Object getUser() {
+        return userService.getUser();
     }
 }

@@ -25,4 +25,7 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query(value = "match(u:User) where u.name=~{0} return u")
     List<User> findUserByName(String name);
 
+    @Query(value = "match(u1:User)-[f:FRIENDS]->(u2:User)where id(u2)={0} return count(f)")
+    int getPanNum(Long userId);
+
 }

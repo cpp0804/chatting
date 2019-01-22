@@ -1,11 +1,15 @@
 package service.impl;
 
 import entity.User;
+import jdk.nashorn.api.scripting.JSObject;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pojo.RequestResultVO;
+import pojo.UserVo;
 import repository.UserRepository;
 import service.UserService;
 import utils.DateJsonValueProcessor;
@@ -62,7 +66,7 @@ public class UserServiceImpl implements UserService {
 //        List<User> friends=null;
         Map<String, Object> map = new HashMap<String, Object>();
         JsonConfig config = new JsonConfig();
-        config.setExcludes(new String[]{"login", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
+        config.setExcludes(new String[]{"logins", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
         config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
         map.put("aaData", JSONArray.fromObject(friends, config));
         return map;
@@ -73,9 +77,25 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findUserByName(name);
         Map<String, Object> map = new HashMap<String, Object>();
         JsonConfig config = new JsonConfig();
-        config.setExcludes(new String[]{"login", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
+        config.setExcludes(new String[]{"logins", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
         config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
         map.put("aaData", JSONArray.fromObject(users, config));
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getUser() {
+        User user = getSessionUser();
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
+        userVo.setLikeNum(user.getFriends().size());
+        userVo.setPostNum(user.getMomentsPost().size());
+        userVo.setPanNum(userRepository.getPanNum(getSessionId()));
+        Map<String, Object> map = new HashMap<>();
+        JsonConfig config = new JsonConfig();
+        config.setExcludes(new String[]{"logins", "momentsPost", "momentsLike", "momentsComment", "momentsCollection", "friends", "specialFriends"});
+        config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
+        map.put("aaData", JSONObject.fromObject(userVo,config));
         return map;
     }
 }
