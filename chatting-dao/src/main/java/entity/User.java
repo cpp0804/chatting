@@ -24,6 +24,7 @@ public class User {
     private String phone;
     private String email;
     private String portrait;
+    private String motto;
 
     @Relationship(type = "LOGIN")
     private List<Login> logins = new ArrayList<Login>();
@@ -151,5 +152,13 @@ public class User {
 
     public String getPortrait() {
         return portrait;
+    }
+
+    public void setMotto(String motto) {
+        this.motto = motto;
+    }
+
+    public String getMotto() {
+        return motto;
     }
 }

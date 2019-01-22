@@ -1,5 +1,6 @@
 package controller;
 
+import entity.Login;
 import entity.Moment;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,31 @@ public class UserController {
     public @ResponseBody
     Object findUserByName(HttpServletRequest request) {
         String name = request.getParameter("name");
-        return userService.findUserByName(".*"+name+".*");
+        return userService.findUserByName(".*" + name + ".*");
 //        return  userService.findUserByName(name);
     }
 
+    @RequestMapping(value = "/getUser.do")
+    public @ResponseBody
+    Object getUser() {
+        return userService.getUser();
+    }
+
+    //注册
+    @RequestMapping(value = "/register.do")
+    public @ResponseBody
+    RequestResultVO register(HttpServletRequest request) {
+        String userKey = request.getParameter("user");
+        String loginKey=request.getParameter("login");
+        User user;
+        Login login;
+        try {
+            user = JsonFastUtil.parseObject(userKey, User.class);
+            login=JsonFastUtil.parseObject(loginKey,Login.class);
+        } catch (Exception e) {
+            throw new util.BizException(HttpResponseConstants.Public.ERROR_700);
+        }
+        user.getLogins().add(login);
+        return userService.insert(user);
+    }
 }

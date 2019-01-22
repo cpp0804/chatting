@@ -34,6 +34,8 @@ public interface HttpResponseConstants {
 
 		public static final String CANCEL_LIKE_SUCCESS = "取消喜欢成功";
 
+		public static final String REGISTER_SUCCESS = "注册成功";
+
 		/**error**/
 		public static final String ERROR_700 = "参数错误";
 
