@@ -1,14 +1,20 @@
 package service.impl;
 
 import entity.Moment;
+import entity.Picture;
 import entity.User;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pojo.CollectionsVo;
+import pojo.PostVo;
 import pojo.RequestResultVO;
 import relationship.Collections;
+import relationship.Like;
+import relationship.Post;
 import repository.CollectionRepository;
 import repository.MomentRepository;
 import service.CollectionsService;
@@ -17,10 +23,7 @@ import utils.DateJsonValueProcessor;
 import utils.HttpResponseConstants;
 import utils.ResultBuilder;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CollectionsServiceImpl implements CollectionsService {
@@ -37,7 +40,7 @@ public class CollectionsServiceImpl implements CollectionsService {
     // 收藏、取消收藏
     @Override
     @Transactional
-    public RequestResultVO collectOrCancel(Long momentId){
+    public RequestResultVO collectOrCancel(Long momentId) {
 
         //获取User
         User user = userService.getSessionUser();
@@ -73,16 +76,57 @@ public class CollectionsServiceImpl implements CollectionsService {
 
         Long userId = userService.getSessionId();
 
-        List<Moment> cols = collectionRepository.myCollections(userId);
+        List<Collections> cols = collectionRepository.myCollections(userId);
 
-        Map<String, Object> map = new HashMap<>();
+        java.util.Collections.sort(cols, new Comparator<Collections>() {
+            public int compare(Collections o1, Collections o2) {
+                if (o1.getPostDate() != null & o2.getPostDate() != null) {
+                    return o2.getPostDate().compareTo(o1.getPostDate());
+                } else {
+                    return 1;
+                }
+            }
+        });
+        Map<String, Object> map = new HashMap<String, Object>();
         JsonConfig config = new JsonConfig();
-//        config.setExcludes(new String[]{"user", "momentsCollection",});
+        config.setExcludes(new String[]{"user", "moment"});
         config.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
-        map.put("aaData", JSONArray.fromObject(cols, config));
+        map.put("aaData", JSONArray.fromObject(this.createVos(cols), config));
         return map;
 
     }
 
 
+    private List<CollectionsVo> createVos(List<Collections> collections) {
+        List<CollectionsVo> collectionsVos = new ArrayList<CollectionsVo>();
+        for (Collections collect : collections) {
+            CollectionsVo collectionsVo = new CollectionsVo();
+            BeanUtils.copyProperties(collect, collectionsVo);
+            collectionsVo.setDescription(collect.getMoment().getDescription());
+            List<String> pictures = new ArrayList<>();
+            Moment moment = momentRepository.findById(collect.getMoment().getId()).get();
+            for (Iterator iterator = moment.getPictures().iterator(); iterator.hasNext(); ) {
+                Picture picture = (Picture) iterator.next();
+                pictures.add(picture.getUrl());
+            }
+            collectionsVo.setPictures(pictures);
+            collectionsVo.setUserName(collect.getUser().getName());
+            collectionsVo.setUserPortrait(collect.getUser().getPortrait());
+            collectionsVo.setLiked(isLiked(collect));
+            collectionsVos.add(collectionsVo);
+        }
+        return collectionsVos;
+    }
+
+    private boolean isLiked(Collections collections) {
+        User user = userService.getSessionUser();
+        List<Like> likes = user.getMomentsLike();
+        for (Iterator iterator = likes.iterator(); iterator.hasNext(); ) {
+            Like l = (Like) iterator.next();
+            if (l.getMoment().getId().equals(collections.getMoment().getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

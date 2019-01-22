@@ -13,6 +13,6 @@ import java.util.List;
 @Repository
 public interface CollectionRepository extends Neo4jRepository<Collections, Long> {
 
-    @Query(value = "MATCH (u:User)-[c:COLLECTION]-(m:Moment) where id(u)={0} RETURN m order by c.postDate desc")
-    List<Moment> myCollections(Long userId);
+    @Query(value = "MATCH (u:User)-[c:COLLECTION]-(m:Moment) where id(u)={0} RETURN c order by c.postDate desc")
+    List<Collections> myCollections(Long userId);
 }
