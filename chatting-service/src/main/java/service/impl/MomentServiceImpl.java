@@ -47,18 +47,21 @@ public class MomentServiceImpl implements MomentService {
 
     @Override
     public Moment createMoment(String description, String pictureUrl) {
-        List<String> pictureUrlList;
+        String[] pictureUrlList;
+        List<String> temp ;
         Moment moment = new Moment();
 
         try {
-            pictureUrlList= JsonFastUtil.parseObject(pictureUrl,List.class);
+            pictureUrlList = pictureUrl.split(",");
+            temp = Arrays.asList(pictureUrlList);
+//            pictureUrlList= JsonFastUtil.parseObject(pictureUrl,List.class);
 //            moment = JsonFastUtil.parseObject(keys, Moment.class);
         } catch (Exception e) {
             throw new util.BizException(HttpResponseConstants.Public.ERROR_700);
         }
         Picture picture;
         List<Picture>pictures=new ArrayList<>();
-        for(String url:pictureUrlList){
+        for(String url:temp){
             picture=new Picture();
             picture.setUrl(url);
             picture.setCreateTime(new Date());
