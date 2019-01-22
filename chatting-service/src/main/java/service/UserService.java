@@ -26,5 +26,7 @@ public interface UserService {
 
     RequestResultVO insert(User user);
 
+    List<String> getAlbum();
+
 //    User createUser(String keys);
 }

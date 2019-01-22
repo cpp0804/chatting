@@ -82,4 +82,13 @@ public class UserController {
         user.getLogins().add(login);
         return userService.insert(user);
     }
+
+    //获取相册
+    @RequestMapping(value = "/getAlbum.do")
+    public @ResponseBody
+    Object getAlbum(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        return userService.getAlbum();
+//        return  userService.findUserByName(name);
+    }
 }

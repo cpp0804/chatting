@@ -1,5 +1,6 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -19,12 +20,14 @@ public class Picture {
     private String url;
 
     @CreatedBy
+    @JsonIgnore
     private User creator;
 
     @CreatedDate
     private Date createTime;
 
     @Relationship(type = "MOMENT_PIC",direction = Relationship.INCOMING)
+    @JsonIgnore
     private Moment moment;
 
     public Picture() {

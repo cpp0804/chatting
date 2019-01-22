@@ -1,6 +1,7 @@
 package repository;
 
 
+import entity.Picture;
 import entity.User;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
@@ -27,5 +28,8 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query(value = "match(u1:User)-[f:FRIENDS]->(u2:User)where id(u2)={0} return count(f)")
     int getPanNum(Long userId);
+
+    @Query(value = "match(u:User)<-[c:CREATOR]-(p:Picture)where id(u)={0} return p")
+    List<Picture>getAlbum(Long userId);
 
 }

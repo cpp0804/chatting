@@ -1,5 +1,6 @@
 package service.impl;
 
+import entity.Picture;
 import entity.User;
 import jdk.nashorn.api.scripting.JSObject;
 import net.sf.json.JSONArray;
@@ -17,10 +18,7 @@ import utils.HttpResponseConstants;
 import utils.ResultBuilder;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -106,6 +104,17 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
         return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.REGISTER_SUCCESS, "");
+    }
+
+    @Override
+    public List<String> getAlbum() {
+        List<Picture> pictures = userRepository.getAlbum(getSessionId());
+        List<String> pic = new ArrayList<>();
+        for (Iterator iterator = pictures.iterator(); iterator.hasNext(); ) {
+            Picture picture = (Picture) iterator.next();
+            pic.add(picture.getUrl());
+        }
+        return pic;
     }
 
 //    @Override

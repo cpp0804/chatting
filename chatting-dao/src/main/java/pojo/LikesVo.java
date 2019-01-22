@@ -1,10 +1,10 @@
 package pojo;
 
-import relationship.Collections;
+import relationship.Like;
 
 import java.util.List;
 
-public class CollectionsVo extends Collections {
+public class LikesVo extends Like {
 
     private boolean liked;
 
@@ -17,9 +17,12 @@ public class CollectionsVo extends Collections {
 
     private List<String> pictures;
 
-
     public void setLiked(boolean liked) {
         this.liked = liked;
+    }
+
+    public void setCollected(boolean collected) {
+        this.collected = collected;
     }
 
     public void setUserName(String userName) {
@@ -42,6 +45,10 @@ public class CollectionsVo extends Collections {
         return liked;
     }
 
+    public boolean isCollected() {
+        return collected;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -56,14 +63,5 @@ public class CollectionsVo extends Collections {
 
     public List<String> getPictures() {
         return pictures;
-    }
-
-
-    public void setCollected(boolean collected) {
-        this.collected = collected;
-    }
-
-    public boolean isCollected() {
-        return collected;
     }
 }

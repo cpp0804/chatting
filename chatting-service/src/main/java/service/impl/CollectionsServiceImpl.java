@@ -113,9 +113,22 @@ public class CollectionsServiceImpl implements CollectionsService {
             collectionsVo.setUserName(collect.getUser().getName());
             collectionsVo.setUserPortrait(collect.getUser().getPortrait());
             collectionsVo.setLiked(isLiked(collect));
+            collectionsVo.setCollected(isCollected(collect));
             collectionsVos.add(collectionsVo);
         }
         return collectionsVos;
+    }
+
+    private boolean isCollected(Collections collections) {
+        User user = userService.getSessionUser();
+        List<relationship.Collections> collect = user.getMomentsCollection();
+        for (Iterator iterator = collect.iterator(); iterator.hasNext(); ) {
+            relationship.Collections c = (relationship.Collections) iterator.next();
+            if (c.getMoment().getId().equals(collections.getMoment().getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isLiked(Collections collections) {

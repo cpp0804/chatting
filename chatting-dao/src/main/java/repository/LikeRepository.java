@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface LikeRepository extends Neo4jRepository<Like, Long> {
 
-    @Query(value = "MATCH (u:User)-[l:LIKE]-(m:Moment) where id(u)={0} RETURN m order by l.postDate desc")
-    List<Moment> myLikes(Long userId);
+    @Query(value = "MATCH (u:User)-[l:LIKE]-(m:Moment) where id(u)={0} RETURN l order by l.postDate desc")
+    List<Like> myLikes(Long userId);
 
 }
