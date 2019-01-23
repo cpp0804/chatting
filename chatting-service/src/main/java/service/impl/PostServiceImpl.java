@@ -161,6 +161,7 @@ public class PostServiceImpl implements PostService {
                 Picture picture = (Picture) iterator.next();
                 pictures.add(picture.getUrl());
             }
+            postVo.setMomentId(post.getMoment().getId());
             postVo.setPictures(pictures);
             postVo.setUserName(post.getUser().getName());
             postVo.setUserPortrait(post.getUser().getPortrait());

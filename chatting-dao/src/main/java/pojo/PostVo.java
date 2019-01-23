@@ -18,6 +18,16 @@ public class PostVo extends Post {
 
     private boolean collected;
 
+    private Long momentId;
+
+    public void setMomentId(Long momentId) {
+        this.momentId = momentId;
+    }
+
+    public Long getMomentId() {
+        return momentId;
+    }
+
     public void setLiked(boolean liked) {
         this.liked = liked;
     }
