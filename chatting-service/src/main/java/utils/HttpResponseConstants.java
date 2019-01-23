@@ -38,6 +38,8 @@ public interface HttpResponseConstants {
 
 		public static final String LOGNAME_EXIST = "注册用户名已存在";
 
+		public static final String USER_EDIT = "个人信息修改成功";
+
 		/**error**/
 		public static final String ERROR_700 = "参数错误";
 

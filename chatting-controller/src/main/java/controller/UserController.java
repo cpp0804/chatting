@@ -91,4 +91,13 @@ public class UserController {
         return userService.getAlbum();
 //        return  userService.findUserByName(name);
     }
+
+    //修改个人信息
+    @RequestMapping(value = "/edit.do")
+    public @ResponseBody
+    RequestResultVO edit(HttpServletRequest request) {
+        String user =request.getParameter("user");
+        return userService.edit(user);
+    }
+
 }
