@@ -51,7 +51,7 @@ public class CollectionsServiceImpl implements CollectionsService {
 
             // 若已经收藏，则取消收藏
             for (Collections col : user.getMomentsCollection()) {
-                if (col.getMoment().getId() == momentId) {
+                if (col.getMoment().getId().equals(momentId)) {
                     collectionRepository.delete(col);
                     return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.CANCEL_COLLECT_SUCCESS, "");
                 }

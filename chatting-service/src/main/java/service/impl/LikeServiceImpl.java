@@ -50,7 +50,7 @@ public class LikeServiceImpl implements LikeService {
 
             // 若已经喜欢，则取消喜欢
             for (Like lk : user.getMomentsLike()) {
-                if (lk.getMoment().getId() == momentId) {
+                if (lk.getMoment().getId().equals(momentId)) {
                     likeRepository.delete(lk);
                     return ResultBuilder.buildSuccessResult(HttpResponseConstants.Public.CANCEL_LIKE_SUCCESS, "");
                 }
