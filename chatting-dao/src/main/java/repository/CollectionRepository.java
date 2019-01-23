@@ -15,4 +15,8 @@ public interface CollectionRepository extends Neo4jRepository<Collections, Long>
 
     @Query(value = "MATCH (u:User)-[c:COLLECTION]-(m:Moment) where id(u)={0} RETURN c order by c.postDate desc")
     List<Collections> myCollections(Long userId);
+
+
+    @Override
+    void delete(Collections collections);
 }
